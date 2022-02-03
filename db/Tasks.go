@@ -28,31 +28,32 @@ func (task *Task) CreateTask() (insertResult *mongo.InsertOneResult) {
 	return
 }
 
-func (task *Task) GetTasks(limit int64) (results []*Task) {
+func (task *Task) AllTasks(filter bson.M, limit int64) (results []*Task) {
 	client := Connection()
 	collection := client.Database("TasksList").Collection("tasks")
 	defer client.Disconnect(context.TODO())
 
 	findOptions := options.Find()
 	findOptions.SetLimit(limit)
+	log.Println("filter", filter)
+	cur, err := collection.Find(context.TODO(), filter, findOptions)
 
-	cur, err := collection.Find(context.TODO(), bson.D{{}}, findOptions)
 	if err != nil {
-		log.Println("Error finding ", err)
+		log.Println("Error finding:", err)
 	}
 
 	for cur.Next(context.TODO()) {
 		var item Task
-		err2 := cur.Decode(item)
+		err2 := cur.Decode(&item)
 		if err2 != nil {
-			log.Println("Error decoding ", err2)
+			log.Println("Error decoding:", err2)
 		}
 
 		results = append(results, &item)
 	}
 
 	if err := cur.Err(); err != nil {
-		log.Fatal(err)
+		log.Fatal("Error curr ", err)
 	}
 
 	// Close the cursor once finished

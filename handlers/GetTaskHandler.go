@@ -2,25 +2,24 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"strconv"
 
+	"github.com/Sirpyerre/taskList/db"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func GetTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var tasks db.Task
 	vars := mux.Vars(r)
-	taskID, err := strconv.Atoi(vars["id"])
-	if err != nil {
-		fmt.Fprintf(w, "Invalid ID")
-		return
+	slug := vars["slug"]
+
+	filter := bson.M{
+		"slug": slug,
 	}
 
-	for _, task := range tasks {
-		if task.ID == taskID {
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(task)
-		}
-	}
+	results := tasks.AllTasks(filter, 10)
+	json.NewEncoder(w).Encode(results)
 }
