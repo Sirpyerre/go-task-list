@@ -12,15 +12,10 @@ import (
 
 func Connection() (client *mongo.Client) {
 	mongoHost := os.Getenv("MONGO_HOST")
-	mongoDB := os.Getenv("MONGO_DB")
-	mongoUser := os.Getenv("MONGO_USER")
-	mongoPassword := os.Getenv("MONGO_PASSWORD")
 
+	// Without authentication
 	dns := fmt.Sprintf("mongodb://%s:%v", mongoHost, 27017)
-	clientOptions := options.Client().ApplyURI(dns).
-		SetAuth(options.Credential{
-			AuthSource: mongoDB, Username: mongoUser, Password: mongoPassword,
-		})
+	clientOptions := options.Client().ApplyURI(dns)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Println("Client Error:", err)

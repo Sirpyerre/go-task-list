@@ -7,9 +7,10 @@ import (
 	"net/http"
 
 	"github.com/Sirpyerre/taskList/db"
+	"github.com/gosimple/slug"
 )
 
-func createTask(w http.ResponseWriter, r *http.Request) {
+func CreateTask(w http.ResponseWriter, r *http.Request) {
 	var newTask db.Task
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -17,8 +18,8 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.Unmarshal(reqBody, &newTask)
-	newTask.ID = len(tasks) + 1
-	tasks = append(tasks, newTask)
+	newTask.Slug = slug.Make(newTask.Name)
+	newTask.CreateTask()
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
