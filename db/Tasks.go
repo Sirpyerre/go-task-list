@@ -61,3 +61,16 @@ func (task *Task) AllTasks(filter bson.M, limit int64) (results []*Task) {
 
 	return
 }
+
+func (task *Task) DeleteTask(filter bson.M) (deleteResult *mongo.DeleteResult) {
+	client := Connection()
+	collection := client.Database("TasksList").Collection("tasks")
+	defer client.Disconnect(context.TODO())
+
+	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		log.Println("Error deleting:", err)
+	}
+
+	return
+}

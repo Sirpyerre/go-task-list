@@ -19,21 +19,6 @@ var tasks = allTask{
 	},
 }
 
-// func deleteTask(w http.ResponseWriter, r *http.Request) {
-// 	vars := mux.Vars(r)
-// 	taskID, err := strconv.Atoi(vars["id"])
-// 	if err != nil {
-// 		fmt.Fprintf(w, "Invalid ID")
-// 		return
-// 	}
-
-// 	for i, t := range tasks {
-// 		if t.ID == taskID {
-// 			tasks = append(tasks[:i], tasks[i+1:]...)
-// 			fmt.Fprintf(w, "The task with ID %v has been delete succesfully", taskID)
-// 		}
-// 	}
-// }
 
 func indexRoute(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -74,7 +59,7 @@ func main() {
 	router.HandleFunc("/tasks", handlers.GetTasks).Methods("GET")
 	router.HandleFunc("/tasks", handlers.CreateTask).Methods("POST")
 	router.HandleFunc("/tasks/{slug}", handlers.GetTask).Methods("GET")
-	// router.HandleFunc("/tasks/{id}", deleteTask).Methods("DELETE")
+	router.HandleFunc("/tasks/{id}", hand).Methods("DELETE")
 	// router.HandleFunc("/tasks/{id}", updateTask).Methods("PUT")
 
 	log.Fatal(http.ListenAndServe(":3000", router))
