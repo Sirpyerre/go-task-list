@@ -8,16 +8,11 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Sirpyerre/taskList/db"
 	"github.com/gorilla/mux"
 )
 
-type task struct {
-	ID      int    `json:ID`
-	Name    string `json:name`
-	Content string `json:content`
-}
-
-type allTask []task
+type allTask []db.Task
 
 var tasks = allTask{
 	{
@@ -87,7 +82,7 @@ func updateTask(w http.ResponseWriter, r *http.Request) {
 
 	for i, t := range tasks {
 		if t.ID == taskID {
-			tasks = append(tasks[:i], tasks[i+1:]... )
+			tasks = append(tasks[:i], tasks[i+1:]...)
 			updateTask.ID = taskID
 			tasks = append(tasks, updateTask)
 
@@ -96,21 +91,7 @@ func updateTask(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func createTask(w http.ResponseWriter, r *http.Request) {
-	var newTask task
-	reqBody, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		fmt.Fprintf(w, "Insert a Valid task")
-	}
 
-	json.Unmarshal(reqBody, &newTask)
-	newTask.ID = len(tasks) + 1
-	tasks = append(tasks, newTask)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(newTask)
-}
 
 func main() {
 	router := mux.NewRouter().StrictSlash(true)

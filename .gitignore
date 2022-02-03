@@ -3,3 +3,4 @@
 taskList
 bin
 vendor/
+.env
