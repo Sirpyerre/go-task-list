@@ -74,3 +74,23 @@ func (task *Task) DeleteTask(filter bson.M) (deleteResult *mongo.DeleteResult) {
 
 	return
 }
+
+func (task *Task) UpdateTask(filter bson.M) (updateResult *mongo.UpdateResult){
+	client := Connection()
+	collection := client.Database("TasksList").Collection("tasks")
+	defer client.Disconnect(context.TODO())
+
+	set := bson.M{"$set": bson.M{
+		"name":    task.Name,
+		"content": task.Content,
+	},
+	}
+
+	updateResult, err := collection.UpdateOne(context.TODO(),filter, set)
+	if err != nil {
+		log.Println("Update error:", err)
+	}
+
+	return
+
+}
