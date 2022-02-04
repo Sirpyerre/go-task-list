@@ -2,8 +2,8 @@
 
 Based on youtube tutorial: https://www.youtube.com/watch?v=pQAV8A9KLwk
 
-[![Golang, REST API CRUD con go
-](https://img.youtube.com/vi/configuroweb/0.jpg)](https://www.youtube.com/watch?v=pQAV8A9KLwk)
+[![Golang, REST API CRUD con go](https://img.youtube.com/vi/pQAV8A9KLwk/0.jpg)](https://www.youtube.com/watch?v=pQAV8A9KLwk)
+
 
 --- 
 
