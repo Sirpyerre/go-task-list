@@ -15,7 +15,7 @@ In this branch:
 * Add Task model for operations with the database
 * Add make file
 
-#Configure database
+# Configure database
 In .env file: add your settings about your DB
 
 # Run
