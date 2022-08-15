@@ -19,6 +19,8 @@ var tasks = allTask{
 	},
 }
 
+const portNumber = ":8080"
+
 func indexRoute(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, "Welcome to my API")
@@ -34,5 +36,6 @@ func main() {
 	router.HandleFunc("/tasks/{slug}", handlers.DeleteTask).Methods("DELETE")
 	router.HandleFunc("/tasks/{slug}", handlers.UpdateTask).Methods("PUT")
 
-	log.Fatal(http.ListenAndServe(":3000", router))
+	fmt.Println(fmt.Sprintf("Starting application in port %q", portNumber))
+	log.Fatal(http.ListenAndServe(portNumber, router))
 }
