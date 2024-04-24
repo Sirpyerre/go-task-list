@@ -7,7 +7,7 @@ import (
 
 	"github.com/Sirpyerre/taskList/db"
 	"github.com/Sirpyerre/taskList/handlers"
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 )
 
 type allTask []db.Task
@@ -27,7 +27,7 @@ func indexRoute(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	router := mux.NewRouter().StrictSlash(true)
+	router := chi.NewRouter()
 
 	router.HandleFunc("/", indexRoute)
 	router.HandleFunc("/tasks", handlers.GetTasks).Methods("GET")
