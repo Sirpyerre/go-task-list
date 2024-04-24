@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Sirpyerre/taskList/db"
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -13,8 +13,7 @@ func GetTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var tasks db.Task
-	vars := mux.Vars(r)
-	slug := vars["slug"]
+	slug := chi.URLParam(r, "slug")
 
 	filter := bson.M{
 		"slug": slug,

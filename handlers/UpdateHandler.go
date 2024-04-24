@@ -3,20 +3,19 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/Sirpyerre/taskList/db"
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 func UpdateTask(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	slug := vars["slug"]
+	slug := chi.URLParam(r, "slug")
 
 	var updateTask db.Task
-	reqBody, err := ioutil.ReadAll(r.Body)
+	reqBody, err := io.ReadAll(r.Body)
 	if err != nil {
 		fmt.Fprintf(w, "Please enter valid data")
 	}

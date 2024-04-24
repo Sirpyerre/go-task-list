@@ -3,7 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/Sirpyerre/taskList/db"
@@ -12,7 +12,7 @@ import (
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {
 	var newTask db.Task
-	reqBody, err := ioutil.ReadAll(r.Body)
+	reqBody, err := io.ReadAll(r.Body)
 	if err != nil {
 		fmt.Fprintf(w, "Insert a Valid task")
 	}
